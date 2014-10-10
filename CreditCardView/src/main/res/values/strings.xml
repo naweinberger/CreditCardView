@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">CreditCardView</string>
+    <string name="credit_card_default_number">&#8226;&#8226;&#8226;&#8226; &#8226;&#8226;&#8226;&#8226; &#8226;&#8226;&#8226;&#8226; 4242</string>
+    <string name="credit_card_default_name">John Doe</string>
+    <string name="crdit_card_default_date">11/2017</string> "
+</resources>

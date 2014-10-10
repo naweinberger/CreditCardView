@@ -1,0 +1,5 @@
+<resources>
+    <style name="credit_card_text">
+        <item name="android:textColor">#ffffff</item>
+    </style>
+</resources>
