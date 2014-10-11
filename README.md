@@ -37,12 +37,12 @@ creditCardView.setExpiration("11/2017");
 Example
 --------------
 
-![Screenshot](https://raw.github.com/palindromicstudios/CreditCardView/master/images/screenshot.png)
+![Screenshot](https://raw.github.com/naweinberger/CreditCardView/master/images/screenshot.png)
 
 License
 --------------
 
-    Copyright 2014 Palindromic Studios
+    Copyright 2014 Natan Weinberger
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
