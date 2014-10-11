@@ -1,9 +1,9 @@
 apply plugin: 'com.android.library'
 
-buildscript {
-    repositories {
-        mavenCentral()
-    }
+ext {
+    PUBLISH_GROUP_ID = 'com.palindromicstudios'
+    PUBLISH_ARTIFACT_ID = 'credit-card-view'
+    PUBLISH_VERSION = '1.0.0'
 }
 
 android {
@@ -29,3 +29,5 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.android.support:appcompat-v7:19.+'
 }
+
+apply from: 'http://raw.github.com/blundell/release-android-library/master/android-release-aar.gradle'
