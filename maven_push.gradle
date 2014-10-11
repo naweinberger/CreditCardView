@@ -1,85 +1,69 @@
 apply plugin: 'maven'
 apply plugin: 'signing'
 
-def sonatypeRepositoryUrl
-if (isReleaseBuild()) {
-    println 'RELEASE BUILD'
-    sonatypeRepositoryUrl = "https://oss.sonatype.org/service/local/staging/deploy/maven2/"
-} else {
-    println 'DEBUG BUILD'
-    sonatypeRepositoryUrl = "https://oss.sonatype.org/content/repositories/snapshots/"
+task javadocJar(type: Jar) {
+    classifier = 'javadoc'
+    from javadoc
 }
 
-afterEvaluate { project ->
-    uploadArchives {
-        repositories {
-            mavenDeployer {
-                beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+task sourcesJar(type: Jar) {
+    classifier = 'sources'
+    from sourceSets.main.allSource
+}
 
-                pom.artifactId = POM_ARTIFACT_ID
+artifacts {
+    archives javadocJar, sourcesJar
+}
 
-                repository(url: sonatypeRepositoryUrl) {
-                    authentication(
-                            userName: project.hasProperty('nexusUsername') ? nexusUsername : "",
-                            password: project.hasProperty('nexusPassword') ? nexusPassword : ""
-                    )
+signing {
+    sign configurations.archives
+}
+
+group = "com.example.applications"
+archivesBaseName = "example-application"
+version = "1.4.7"
+
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+
+            repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
+                authentication(userName: ossrhUsername, password: ossrhPassword)
+            }
+
+            snapshotRepository(url: "https://oss.sonatype.org/content/repositories/snapshots/") {
+                authentication(userName: ossrhUsername, password: ossrhPassword)
+            }
+
+            pom.project {
+                name 'CreditCardView'
+                packaging 'aar'
+                // optionally artifactId can be defined here
+                description 'A custom Android view for displaying credit card information.'
+                url 'https://github.com/naweinberger/CreditCardView'
+
+                scm {
+                    connection 'scm:svn:https://github.com/naweinberger/CreditCardView.git'
+                    developerConnection 'scm:svn:https://github.com/naweinberger/CreditCardView.git'
+                    url 'https://github.com/naweinberger/CreditCardView.git'
                 }
 
-                pom.project {
-                    name POM_NAME
-                    packaging POM_PACKAGING
-                    description POM_DESCRIPTION
-                    url POM_URL
-
-                    scm {
-                        url POM_SCM_URL
-                        connection POM_SCM_CONNECTION
-                        developerConnection POM_SCM_DEV_CONNECTION
+                licenses {
+                    license {
+                        name 'The Apache License, Version 2.0'
+                        url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
                     }
+                }
 
-                    licenses {
-                        license {
-                            name POM_LICENCE_NAME
-                            url POM_LICENCE_URL
-                            distribution POM_LICENCE_DIST
-                        }
-                    }
-
-                    developers {
-                        developer {
-                            id POM_DEVELOPER_ID
-                            name POM_DEVELOPER_NAME
-                        }
+                developers {
+                    developer {
+                        id 'naweinberger'
+                        name 'Natan Weinberger'
+                        email 'naweinberger@gmail.com'
                     }
                 }
             }
         }
-    }
-
-    signing {
-        required { isReleaseBuild() && gradle.taskGraph.hasTask("uploadArchives") }
-        sign configurations.archives
-    }
-
-    task androidJavadocs(type: Javadoc) {
-        source = android.sourceSets.main.java
-    }
-
-    task androidJavadocsJar(type: Jar) {
-        classifier = 'javadoc'
-        //basename = artifact_id
-        from androidJavadocs.destinationDir
-    }
-
-    task androidSourcesJar(type: Jar) {
-        classifier = 'sources'
-        //basename = artifact_id
-        from android.sourceSets.main.java
-    }
-
-    artifacts {
-        //archives packageReleaseJar
-        archives androidSourcesJar
-        archives androidJavadocsJar
     }
 }
