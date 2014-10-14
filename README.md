@@ -1,18 +1,20 @@
 CreditCardView
 ==============
 
-A custom Android view for displaying credit card information
+CreditCardView is a custom Android view for displaying credit card information in a styled and clear way.
 
-Clone CreditCardView to get access to the library and an example application.
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.palindromicstudios/credit-card-view/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.palindromicstudios/credit-card-view)
+
+Clone CreditCardView to use the library and an example application, or pull it from Maven Central by including it in your dependencies.
+
+
+```
+'compile com.palindromicstudios:credit-card-view:1.0.0+'
+```
+
 
 Usage
 --------------
-
-CreditCardView can be used just like any other view.
-
-```java
-CreditCardView creditCardView = (CreditCardView) findViewById(R.id.credit_card_view);
-```
 
 You can customize the look of the card in XML like this:
 ```xml
@@ -28,11 +30,18 @@ You can customize the look of the card in XML like this:
 ```
 
 And you can set the content programmatically:
+
+```java
+CreditCardView creditCardView = (CreditCardView) findViewById(R.id.credit_card_view);
+```
+
 ```java
 creditCardView.setName("John Doe"); 
-creditCardView.setNumber("4242 4242 4242 4242"); 
+creditCardView.setNumber("4242 4242 4242 4242"); //Only displays last four digits
 creditCardView.setExpiration("11/2017"); 
 ```
+
+Setting the card number will only display the last four digits of the number for security reasons. See below for an example.
 
 Example
 --------------
